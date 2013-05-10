@@ -36,7 +36,10 @@ var mouse = {
 	up: true,
 	down: false
 };
+var numberOfImagesLoaded = 0; 
 var game = null;
 var cPlayground = new _.Stage("playground");
 	cPlayground.enableMouseOver(10);
 	cPlayground.mouseMoveOutside = true;
+	var imgMonsterAIdle = new Image();
+	var imgMonsterARun = new Image();

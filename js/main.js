@@ -1,19 +1,47 @@
 
-
-
 // create spritesheet and assign the associated data.
 jQuery(document).ready(function($) {
 	init(); 
 });
 function init() {
     //find canvas and load images, wait for last image to load
+    loadAssets();
+}
 
+function loadAssets() {
+	imgMonsterARun.onload = handleImageLoad;
+    imgMonsterARun.onerror = handleImageError;
+    imgMonsterARun.src = "img/sprites/MonsterARun.png";
+
+    imgMonsterAIdle.onload = handleImageLoad;
+    imgMonsterAIdle.onerror = handleImageError;
+    imgMonsterAIdle.src = "img/sprites/MonsterAIdle.png";
+}
+
+function handleImageLoad(e) {
+    numberOfImagesLoaded++;
+
+    // We're not starting the game until all images are loaded
+    // Otherwise, you may start to draw without the resource and raise 
+    // this DOM Exception: INVALID_STATE_ERR (11) on the drawImage method
+    if (numberOfImagesLoaded == 2) {
+        numberOfImagesLoaded = 0;
+        startGame();
+    }
+}
+function handleImageError(e) {
+	alert("Error while loading image ! Please consult console for error content."); 
+	console.log(e); 
+}
+
+function startGame() {
     new Player(); 
 	_.Ticker.addListener(window);
 	_.Ticker.useRAF = true;
 	_.Ticker.setFPS(60);
 	_.Ticker.addEventListener("tick", handleTick);
 }
+
 function debug(data){
 	$('<div>').html(data+'<br/>').prependTo($('#debug'));
 }
