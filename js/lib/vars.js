@@ -36,10 +36,12 @@ var mouse = {
 	up: true,
 	down: false
 };
+LIMIT_MAX_X = 1500 ; 
+LIMIT_MIN_X = 0 ; 
 INTERVAL_COLLISION = 20 ; 
 TILE_HEIGHT = 32 ; 
 TILE_WIDTH = 32 ; 
-LIMIT_DEATH_Y = 1200 ; 
+LIMIT_DEATH_Y = 2200 ; 
 var keyIsUp = false ; 
 var keyIsDown = false ; 
 var keyIsLeft = false ; 
@@ -55,8 +57,11 @@ var cPlayground = new _.Stage("playground");
 	cPlayground.mouseMoveOutside = true;
 var universeContainer = new Array(new _.Container()) ; 
 	 universeContainer[1] = new _.Container() ; 
+dialogContainer = new _.Container() ; 
 var imgMonsterAIdle = new Image();
 var imgMonsterARun = new Image();
 var tileWall = new Image();
 var GravityAcceleration = 1;
+var GravityAcceleration2 = 0.5;
 var MaxFallSpeed = 500 ; 
+var gameActive = true ; 

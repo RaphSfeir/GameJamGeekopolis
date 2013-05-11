@@ -29,6 +29,7 @@
     left = parseInt((frameWidth - width) / 2);
     height = parseInt(frameWidth * 0.8);
     top = parseInt(frameHeight - height);
+    drawnDialog = new _.Bitmap() ; 
 
 // constructor:
 	p.initialize = function (params) {
@@ -56,8 +57,37 @@
 		}
 	}
 
+	p.endGame = function() {
+		alert("end") ; 
+	}
+
 	p.pickupBonus = function () {
 		this.currentBonus++ ; 
+		if (this.currentBonus == bonusToPick) {
+			if (game._currentLevel == finalLevel) {
+				this.endGame() ; 
+			}
+			else {
+				this.currentBonus = 0 ; 
+				bonusToPick = 1 ; 
+				game.setLevel(game._currentLevel + 1);
+			}
+		}
+	}
+
+	p.erraseDialogs = function () {
+		dialogContainer.removeAllChildren() ; 
+	}
+
+	p.loadDialog = function(dialog, pnj) {
+		console.log(dialog); 
+		drawnDialog = new _.Bitmap("img/dialogs/mygod.png");
+		drawnDialog.x = pnj.x ; 
+		drawnDialog.y = pnj.y - 150; 
+		console.log(drawnDialog); 
+		dialogContainer.addChild(drawnDialog);
+		console.log(cPlayground) ; 
+		cPlayground.update() ; 
 	}
 
 	p.collideObjects = function() {
@@ -70,14 +100,25 @@
 		}
 		else objectsToSee = objectsList2 ;
 		for (var k = 0 ; k < objectsToSee.length ; k++) {
-			if (objectsToSee[k].active) {
-				console.log(objectsToSee[k]._mapX + " ; " + centerTile)
-				if (parseInt(objectsToSee[k]._mapX) == parseInt(centerTile) && parseInt(objectsToSee[k]._mapY) == parseInt(centerYTile)) {
-					 if (objectsToSee[k].type == "bonus") {
-					 	this.pickupBonus() ; 
-					 	objectsToSee[k].hide() ; 
-					 	objectsToSee[k].active = false; 
-					 }
+			if (objectsToSee[k]) {
+				if (objectsToSee[k].active) {
+					if (objectsToSee[k].type == "bonus") {
+						if (parseInt(objectsToSee[k]._mapX) == parseInt(centerTile) && parseInt(objectsToSee[k]._mapY) == parseInt(centerYTile)) 
+						{
+							this.pickupBonus() ; 
+							objectsToSee[k].hide() ; 
+							objectsToSee[k].active = false; 
+						}	
+					}
+					else if (objectsToSee[k].type == "PNJ") {
+					 	if ((objectsToSee[k]._mapX <= centerTile + 1 && objectsToSee[k]._mapX >= centerTile - 1) &&  objectsToSee[k]._mapY <= centerYTile + 1 && objectsToSee[k]._mapY >= centerYTile - 1) 
+					 	{
+					 		console.log(objectsToSee[k]);
+
+					 		this.loadDialog(objectsToSee[k].dialog, objectsToSee[k]) ; 
+						}
+						else this.erraseDialogs() ; 
+					}
 				}
 			}
 		}
@@ -101,6 +142,18 @@
 		else if (this.vX < -this.limitSpeedX) this.vX = - this.limitSpeedX;
 		if (this.vY > this.limitSpeedY) this.vY = this.limitSpeedY ; 
 		else if (this.vY < -this.limitSpeedY) this.vY = - this.limitSpeedY;
+		if (this.x > LIMIT_MAX_X) {
+			if (this.vX > 0) {
+				this.vX = 0 ;
+				this.x = LIMIT_MAX_X ; 
+			}
+		}
+		else if (this.x < LIMIT_MIN_X) {
+			if (this.vX < 0) {
+				this.vX = 0 ; 
+				this.x = LIMIT_MIN_X ; 
+			}
+		}
 	}
 
  	/// Gets a rectangle which bounds this player in world space.
@@ -121,7 +174,6 @@
         var top = parseInt(Math.round(this.y - 64));
         var right = parseInt(Math.round(this.x + 32));
         var bottom = parseInt(Math.round(this.y + 64));
-
         return {left: left, top: top, right: right, bottom: bottom, center:center, centerY: centerY}; 
     };
 
@@ -214,7 +266,6 @@
 		bmpAnimation.currentFrame = 0;
 		cPlayground.addChild(bmpAnimation);
 		cPlayground.update(); 
-		console.log(cPlayground); 
 
 
 		// var spriteSheet = new createjs.SpriteSheet({

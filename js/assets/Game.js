@@ -11,14 +11,15 @@
 	g._tilesMap = []; 
 	g._currentLevel ; 
 	g._levelData = {};
+	finalLevel = 3 ; 
 	gameCamera = null ; 
 	levelTiles = new Array(); 
 	objectsList1 = new Array() ; 
 	objectsList2 = new Array() ; 
-	initPosition = {x: 350, y:50}
+	initPosition = {x: 350, y:955}
 	var objectsI1 = 0 ; 
 	var objectsI2 = 0 ; 
-	bonusToPick = 2 ; 
+	bonusToPick = 1; 
 	otherLevelTiles = new Array(); 
 	g._lastUniverseSwitch = new Date() ; 
 	g._universeSwitchCooldown = 100 ; 
@@ -29,7 +30,9 @@
 	this.Container_initialize = this.initialize;	//unique to avoid overiding base class
 
 	g.initialize = function (startLevel) {
-		this.setLevel(startLevel); 
+		this.setLevel(startLevel);
+    	g._player = new Player(initPosition);
+    	gameCamera = new Camera() ; 
     	this.launchTicker(); 
     	//Game events
 		$(document).on('click', function(e){
@@ -38,19 +41,20 @@
 
 // public methods:
 	g.setLevel = function (level) {
+		if (this._currentUniverse == 1) game.switchUniverse(); 
+		this.clearLevelData(); 
 		this._currentLevel = level ; 
-		this._levelData = {sizeX: 54, sizeY: 45, gravity: 5};
+		this._levelData = {sizeX: 54, sizeY: 54};
 		this.loadLevelData(level); 
-
-		console.log(levelTiles); 
-		console.log(otherLevelTiles); 
-    	g._player = new Player(initPosition);
-    	gameCamera = new Camera() ;
 	}
 
 	g.clearLevelData = function () {
-		// this._levelTiles = new Array() ; 
-		terrainContainer.removeAllChildren(); 
+		levelTiles = new Array() ; 
+		otherLevelTiles = new Array() ; 
+		objectsList1 = new Array() ; 
+		objectsList2 = new Array() ;
+		universeContainer[0].removeAllChildren();
+		universeContainer[1].removeAllChildren();
 	}
 	g.loadOtherUniverse = function(level) {
 		otherLevelTiles = new Array() ; 
@@ -79,6 +83,13 @@
 							objectsList2[objectsI2] = new ObjectInter("bonus", jX, jY, 1); 
 							objectsI2++ ; 
 						}
+						else if (levelData[currentTile] == "1") {
+							if (!levelTiles[jX])
+								levelTiles[jX] = new Array() ; 
+
+							objectsList2[objectsI2] = new ObjectInter("PNJ", jX, jY, 1); 
+							objectsI2++ ; 
+						}
 						else {
 							if (!otherLevelTiles[jX])
 								otherLevelTiles[jX] = new Array() ; 
@@ -88,6 +99,7 @@
 				}
             	cPlayground.addChild(universeContainer[0]); 
             	cPlayground.addChild(universeContainer[1]); 
+            	cPlayground.addChild(dialogContainer); 
             	that.makeUniverseVisible(1, false); 
 				}
 			}
@@ -125,6 +137,13 @@
 							objectsList1[objectsI1] = new ObjectInter("bonus", jX, jY, 0); 
 							objectsI1++ ; 
 						}
+						else if (levelData[currentTile] == "1") {
+							if (!levelTiles[jX])
+								levelTiles[jX] = new Array() ; 
+
+							objectsList1[objectsI1] = new ObjectInter("PNJ", jX, jY, 0); 
+							objectsI1++ ; 
+						}
 						else {
 							if (!levelTiles[jX])
 								levelTiles[jX] = new Array() ; 
@@ -141,16 +160,21 @@
 
 	}
 
-	g.switchUniverse = function() {
+	g.switchUniverse = function(switchUniverseGravity) {
+		console.log(gameActive); 
 		var current = new Date();
 		var interval = new Date();
+		var tempGravity; 
 		interval.setTime(current.getTime() - g._lastUniverseSwitch.getTime()); 
 		if (interval.getMilliseconds() > g._universeSwitchCooldown) {
 			g._lastUniverseSwitch = new Date() ; 
 		var temp = levelTiles ;
-		console.log(levelTiles[1]) ; 
-		console.log(otherLevelTiles);  
-		levelTiles = otherLevelTiles ; 
+		levelTiles = otherLevelTiles ;
+		tempGravity = GravityAcceleration ;  
+		if (switchUniverseGravity) {
+			GravityAcceleration = GravityAcceleration2 ; 
+			GravityAcceleration2 = tempGravity ; 
+		}
 		otherLevelTiles = temp ; 
             this.makeUniverseVisible(g._currentUniverse, false); 
             this.makeUniverseVisible(g._otherUniverse, true); 
@@ -183,19 +207,24 @@
 	}
 
 	g.tick = function (event) {
-		if (keyIsEnter) g.switchUniverse() ; 
-		g._player.tick();
-		for (var k = 0 ; k < objectsList1.length ; k++) {
-			objectsList1[k].tick() ; 
+		if (gameActive) {
+			if (keyIsEnter) g.switchUniverse() ; 
+			g._player.tick();
+			for (var k = 0 ; k < objectsList1.length ; k++) {
+				if (objectsList1[k])
+					objectsList1[k].tick() ; 
+			}
+			for (var u = 0 ; u < objectsList2.length ; u++) {
+				if (objectsList2[u])
+					objectsList2[u].tick() ; 
+				
+			}
+			universeContainer[0].setTransform(-gameCamera.x, -gameCamera.y) ; 	
+			universeContainer[1].setTransform(-gameCamera.x, -gameCamera.y) ;  
+			dialogContainer.setTransform(-gameCamera.x, -gameCamera.y) ;  
+			gameCamera.tick() ; 
+			renderCanvas();
 		}
-		for (var u = 0 ; u < objectsList2.length ; u++) {
-			objectsList2[u].tick() ; 
-			
-		}
-		universeContainer[0].setTransform(-gameCamera.x, -gameCamera.y) ; 	
-		universeContainer[1].setTransform(-gameCamera.x, -gameCamera.y) ;  
-		gameCamera.tick() ; 
-		renderCanvas();
 	}
 	window.Game = Game;
 

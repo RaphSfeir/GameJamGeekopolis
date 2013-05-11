@@ -41,6 +41,10 @@
 	}
 
 	o.load = function(src,x,y, universe){
+		if (src == "PNJ") {
+			this.y -= 32 ; 
+			this.dialog = 1 ; 
+		}
 		this.image = new Image();
 		this.image.src = ObjectInter.path+src+".png"; 
 		var that = this;
