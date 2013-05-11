@@ -12,6 +12,8 @@
 	g._currentLevel ; 
 	g._levelData = {};
 	g._levelTiles = new Array(); 
+	g._lastUniverseSwitch = new Date() ; 
+	g._universeSwitchCooldown = 200 ; 
 
 // constructor:
 	this.Container_initialize = this.initialize;	//unique to avoid overiding base class
@@ -24,17 +26,20 @@
 		});
 	}
 
+// public methods:
 	g.setLevel = function (level) {
 		this._currentLevel = level ; 
 		this._levelData = {sizeX: 54, sizeY: 45, gravity: 5};
-		this.loadLevelData(level); 
+		// this.loadLevelData("level1-" + level); 
+		this.loadLevelData("level1-" + 2); 
 				console.log(this._levelTiles); 
+    	g._player = new Player();
 	}
 
 	g.loadLevelData = function (level) {
-
+		this._levelTiles = new Array() ; 
 		var txtFile = new XMLHttpRequest();
-		txtFile.open("GET", "levels/level1.txt", true);
+		txtFile.open("GET", "levels/" + level + ".txt", true);
 		var that = this ; 
 		txtFile.onreadystatechange = function() {
 		  if (txtFile.readyState === 4) {  // Makes sure the document is ready to parse.
@@ -58,14 +63,23 @@
 						}
 					}
 				}
-    			g._player = new Player();
-				console.log(this._levelTiles); 
-		    }
-		  }
+				console.log(that._levelTiles); 
+				}
+			}
 		}
 		txtFile.send(null);
 		
 
+	}
+
+	g.switchUniverse = function() {
+		var current = new Date();
+		var interval = new Date();
+		interval.setTime(current.getTime() - g._lastUniverseSwitch.getTime()); 
+		if (interval.getMilliseconds() > g._universeSwitchCooldown) {
+			g._lastUniverseSwitch = new Date() ; 
+			console.log("SWITCH") ; 
+		} 	
 	}
 
     g.getLevelCollision = function (x, y) {
@@ -86,9 +100,9 @@
 		_.Ticker.setFPS(60);
 		_.Ticker.addEventListener("tick", this.tick);
 	}
-// public methods:
 
 	g.tick = function (event) {
+		if (keyIsEnter) g.switchUniverse() ; 
 		g._player.tick();
 		renderCanvas();
 	}

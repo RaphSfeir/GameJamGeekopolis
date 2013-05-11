@@ -43,6 +43,7 @@ var keyIsUp = false ;
 var keyIsDown = false ; 
 var keyIsLeft = false ; 
 var keyIsRight = false ; 
+var keyIsEnter = false ; 
 var frameWidth = 800 ; 
 var frameHeight = 600 ; 
 var TileCollision = { Passable: 0, Impassable: 1, Platform: 2 };
