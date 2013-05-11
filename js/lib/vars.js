@@ -52,6 +52,8 @@ var game = null;
 var cPlayground = new _.Stage("playground");
 	cPlayground.enableMouseOver(10);
 	cPlayground.mouseMoveOutside = true;
+var universeContainer = new Array(new _.Container()) ; 
+	 universeContainer[1] = new _.Container() ; 
 var imgMonsterAIdle = new Image();
 var imgMonsterARun = new Image();
 var tileWall = new Image();

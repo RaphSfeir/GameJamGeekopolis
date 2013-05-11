@@ -1,6 +1,6 @@
 (function (window) {
-    function Tile(texture, collision, x, y) {
-        this.initialize(texture, collision,x,y);
+    function Tile(texture, collision, x, y, invisible, universe) {
+        this.initialize(texture, collision,x,y, invisible, universe);
     }
     
     Tile.prototype = new _.Bitmap();
@@ -12,15 +12,18 @@
       // constructor:
     Tile.prototype.Bitmap_initialize = Tile.prototype.initialize; //unique to avoid overiding base class
 
-    Tile.prototype.initialize = function(texture, collision, x, y) {
+    Tile.prototype.initialize = function(texture, collision, x, y, invisible, universe) {
         if (texture != null) {
             this.Collision = collision ; 
             this.empty = false;
             this.image = tileWall ; 
             this.x = x * this.Width;
             this.y = y * this.Height;
-            cPlayground.addChild(this);
-            cPlayground.update(); 
+            console.log(invisible); 
+            if (invisible)
+                this.visible = false ; 
+
+            universeContainer[universe].addChild(this);
         }
         else {
             if (collision == 1) {

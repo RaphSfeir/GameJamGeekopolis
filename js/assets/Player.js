@@ -21,6 +21,7 @@
 	p.vX = 0 ; 
 	p.vY = 0 ; 
 	p.MoveAcceleration = 1 ; 
+	p.canJump = true ; 
 	p.previousTileY = 0 ; 
 	p.isOnGround = true ; 
     width = parseInt(frameWidth * 0.4);
@@ -41,6 +42,7 @@
 		this.applyPhysics();
 		this.limitVelocity();  
 		this.drawRender() ; 
+		if (!keyIsUp) this.canJump = true ; 
 	}
 
 	p.controlsBehavior = function() {
@@ -65,10 +67,11 @@
 
  	/// Gets a rectangle which bounds this player in world space.
     p.doJump = function () {
-	    if (this.isOnGround) {
+	    if (this.isOnGround && this.canJump) {
 	    	this.vY -= this.jumpSpeed ; 
 	    	this.isOnGround = false ;
         	this.previousTileY = null ; 
+        	this.canJump = false ; 
     	}
     };
 

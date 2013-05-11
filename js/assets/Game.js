@@ -11,9 +11,12 @@
 	g._tilesMap = []; 
 	g._currentLevel ; 
 	g._levelData = {};
-	g._levelTiles = new Array(); 
+	levelTiles = new Array(); 
+	otherLevelTiles = new Array(); 
 	g._lastUniverseSwitch = new Date() ; 
-	g._universeSwitchCooldown = 200 ; 
+	g._universeSwitchCooldown = 100 ; 
+	g._currentUniverse = 0 ;
+	g._otherUniverse = 1 ;
 
 // constructor:
 	this.Container_initialize = this.initialize;	//unique to avoid overiding base class
@@ -30,16 +33,21 @@
 	g.setLevel = function (level) {
 		this._currentLevel = level ; 
 		this._levelData = {sizeX: 54, sizeY: 45, gravity: 5};
-		// this.loadLevelData("level1-" + level); 
-		this.loadLevelData("level1-" + 2); 
-				console.log(this._levelTiles); 
+		this.loadLevelData(level); 
+
+		console.log(levelTiles); 
+		console.log(otherLevelTiles); 
     	g._player = new Player();
 	}
 
-	g.loadLevelData = function (level) {
-		this._levelTiles = new Array() ; 
+	g.clearLevelData = function () {
+		// this._levelTiles = new Array() ; 
+		terrainContainer.removeAllChildren(); 
+	}
+	g.loadOtherUniverse = function(level) {
+		otherLevelTiles = new Array() ; 
 		var txtFile = new XMLHttpRequest();
-		txtFile.open("GET", "levels/" + level + ".txt", true);
+		txtFile.open("GET", "levels/level" + level + "-2.txt", true);
 		var that = this ; 
 		txtFile.onreadystatechange = function() {
 		  if (txtFile.readyState === 4) {  // Makes sure the document is ready to parse.
@@ -51,19 +59,65 @@
 					for (var jX = 0 ; jX < that._levelData.sizeX ; jX++) {
 						var currentTile = jY * that._levelData.sizeX + jX ; 
 						if (levelData[currentTile] == "#") {
-							if (!that._levelTiles[jX])
-								that._levelTiles[jX] = new Array() ; 
+							if (!otherLevelTiles[jX])
+								otherLevelTiles[jX] = new Array() ; 
 
-							that._levelTiles[jX][jY] = new Tile("wall", 2, jX, jY); 
+							otherLevelTiles[jX][jY] = new Tile("wall", 2, jX, jY, false, 1); 
 						}
 						else {
-							if (!that._levelTiles[jX])
-								that._levelTiles[jX] = new Array() ; 
-							that._levelTiles[jX][jY] = new Tile(null, 0, jX, jY); 
+							if (!otherLevelTiles[jX])
+								otherLevelTiles[jX] = new Array() ; 
+							otherLevelTiles[jX][jY] = new Tile(null, 0, jX, jY, false, 1); 
 						}
 					}
 				}
-				console.log(that._levelTiles); 
+            	cPlayground.addChild(universeContainer[0]); 
+            	cPlayground.addChild(universeContainer[1]); 
+            	that.makeUniverseVisible(1, false); 
+				}
+			}
+		}
+		txtFile.send(null);
+	}
+	g.makeUniverseVisible = function(universe, visibility) {
+		if (visibility) {
+				universeContainer[universe].alpha = 1 ; 
+				cPlayground.update() ;
+		}
+		else {
+				universeContainer[universe].alpha = 0.1 ; 
+			}
+			// universeContainer[universe].visible = visibility ;	
+	}
+
+	g.loadLevelData = function (level) {
+		levelTiles = new Array() ; 
+		var txtFile = new XMLHttpRequest();
+		txtFile.open("GET", "levels/level" + level + "-1.txt", true);
+		var that = this ; 
+		txtFile.onreadystatechange = function() {
+		  if (txtFile.readyState === 4) {  // Makes sure the document is ready to parse.
+		    if (txtFile.status === 200) {  // Makes sure it's found the file.
+				var levelData = "                                                                                    ##########                                       ######                                          \n                                                                        \n                 ########################### \n"; 
+				levelData = txtFile.responseText; 
+				
+				for (var jY = 0 ; jY < that._levelData.sizeY ; jY++) {
+					for (var jX = 0 ; jX < that._levelData.sizeX ; jX++) {
+						var currentTile = jY * that._levelData.sizeX + jX ; 
+						if (levelData[currentTile] == "#") {
+							if (!levelTiles[jX])
+								levelTiles[jX] = new Array() ; 
+
+							levelTiles[jX][jY] = new Tile("wall", 2, jX, jY, false, 0); 
+						}
+						else {
+							if (!levelTiles[jX])
+								levelTiles[jX] = new Array() ; 
+							levelTiles[jX][jY] = new Tile(null, 0, jX, jY, false, 0); 
+						}
+					}
+				}
+				that.loadOtherUniverse(level) ; 
 				}
 			}
 		}
@@ -78,8 +132,22 @@
 		interval.setTime(current.getTime() - g._lastUniverseSwitch.getTime()); 
 		if (interval.getMilliseconds() > g._universeSwitchCooldown) {
 			g._lastUniverseSwitch = new Date() ; 
+		var temp = levelTiles ;
+		console.log(levelTiles[1]) ; 
+		console.log(otherLevelTiles);  
+		levelTiles = otherLevelTiles ; 
+		otherLevelTiles = temp ; 
+		console.log("switched") ;
 			console.log("SWITCH") ; 
+            this.makeUniverseVisible(g._currentUniverse, false); 
+            this.makeUniverseVisible(g._otherUniverse, true); 
+            var temp = g._otherUniverse ; 
+            g._otherUniverse = g._currentUniverse ; 
+            g._currentUniverse = temp ; 
 		} 	
+	}
+
+	g.switchTilesData = function () {
 	}
 
     g.getLevelCollision = function (x, y) {
@@ -91,7 +159,7 @@
         if (y < 0 || y >= this._levelData.sizeY) {
             return 0;
         }
-        return this._levelTiles[x][y].Collision;
+        return levelTiles[x][y].Collision;
     };
 
 	g.launchTicker = function() {
