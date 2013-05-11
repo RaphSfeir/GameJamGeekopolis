@@ -135,7 +135,7 @@
         else if (groundCollision == 2 && this.vY >= 0) {
         	if ((this.y + TILE_WIDTH)  <= (bottomTile * StaticTile.Height) + INTERVAL_COLLISION && (this.y + TILE_WIDTH) >= (bottomTile * StaticTile.Height) - INTERVAL_COLLISION)
         	{
-        		if (bounds.bottom + this.vY * this.direction >= bottomTile * StaticTile.Height) {
+        		if ((bounds.bottom + this.vY * this.direction) / 1 > bottomTile * StaticTile.Height) {
         			this.y = bottomTile * StaticTile.Height - 32 ; 
 		        	this.isOnGround = true ; 
 		        	this.vY = 0 ; 
@@ -153,8 +153,8 @@
     };
 
 	Player.prototype.drawRender = function () {
-		bmpAnimation.x = this.x ; 
-		bmpAnimation.y = this.y ; 
+		bmpAnimation.x = this.x - gameCamera.x; 
+		bmpAnimation.y = this.y - gameCamera.y; 
     };
 
 

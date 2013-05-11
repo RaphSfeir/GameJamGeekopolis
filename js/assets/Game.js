@@ -11,6 +11,7 @@
 	g._tilesMap = []; 
 	g._currentLevel ; 
 	g._levelData = {};
+	gameCamera = null ; 
 	levelTiles = new Array(); 
 	otherLevelTiles = new Array(); 
 	g._lastUniverseSwitch = new Date() ; 
@@ -38,6 +39,7 @@
 		console.log(levelTiles); 
 		console.log(otherLevelTiles); 
     	g._player = new Player();
+    	gameCamera = new Camera() ;
 	}
 
 	g.clearLevelData = function () {
@@ -80,14 +82,7 @@
 		txtFile.send(null);
 	}
 	g.makeUniverseVisible = function(universe, visibility) {
-		if (visibility) {
-				universeContainer[universe].alpha = 1 ; 
-				cPlayground.update() ;
-		}
-		else {
-				universeContainer[universe].alpha = 0.1 ; 
-			}
-			// universeContainer[universe].visible = visibility ;	
+		universeContainer[universe].visible = visibility ;	
 	}
 
 	g.loadLevelData = function (level) {
@@ -172,6 +167,9 @@
 	g.tick = function (event) {
 		if (keyIsEnter) g.switchUniverse() ; 
 		g._player.tick();
+		universeContainer[0].setTransform(-gameCamera.x, -gameCamera.y) ; 	
+		universeContainer[1].setTransform(-gameCamera.x, -gameCamera.y) ;  
+		gameCamera.tick() ; 
 		renderCanvas();
 	}
 	window.Game = Game;
