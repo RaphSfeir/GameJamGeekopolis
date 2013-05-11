@@ -36,10 +36,23 @@ var mouse = {
 	up: true,
 	down: false
 };
+INTERVAL_COLLISION = 10 ; 
+TILE_HEIGHT = 32 ; 
+TILE_WIDTH = 32 ; 
+var keyIsUp = false ; 
+var keyIsDown = false ; 
+var keyIsLeft = false ; 
+var keyIsRight = false ; 
+var frameWidth = 800 ; 
+var frameHeight = 600 ; 
+var TileCollision = { Passable: 0, Impassable: 1, Platform: 2 };
 var numberOfImagesLoaded = 0; 
 var game = null;
 var cPlayground = new _.Stage("playground");
 	cPlayground.enableMouseOver(10);
 	cPlayground.mouseMoveOutside = true;
-	var imgMonsterAIdle = new Image();
-	var imgMonsterARun = new Image();
+var imgMonsterAIdle = new Image();
+var imgMonsterARun = new Image();
+var tileWall = new Image();
+var GravityAcceleration = 1;
+var MaxFallSpeed = 500 ; 

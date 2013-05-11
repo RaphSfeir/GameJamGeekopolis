@@ -16,6 +16,10 @@ function loadAssets() {
     imgMonsterAIdle.onload = handleImageLoad;
     imgMonsterAIdle.onerror = handleImageError;
     imgMonsterAIdle.src = "img/sprites/MonsterAIdle.png";
+
+    tileWall.onload = handleImageLoad;
+    tileWall.onerror = handleImageError;
+    tileWall.src = "img/tiles/wall.jpg";
 }
 
 function handleImageLoad(e) {
@@ -24,7 +28,7 @@ function handleImageLoad(e) {
     // We're not starting the game until all images are loaded
     // Otherwise, you may start to draw without the resource and raise 
     // this DOM Exception: INVALID_STATE_ERR (11) on the drawImage method
-    if (numberOfImagesLoaded == 2) {
+    if (numberOfImagesLoaded == 3) {
         numberOfImagesLoaded = 0;
         startGame();
     }
@@ -35,11 +39,7 @@ function handleImageError(e) {
 }
 
 function startGame() {
-    new Player(); 
-	_.Ticker.addListener(window);
-	_.Ticker.useRAF = true;
-	_.Ticker.setFPS(60);
-	_.Ticker.addEventListener("tick", handleTick);
+	game = new Game(1); 
 }
 
 function debug(data){
@@ -94,4 +94,20 @@ $(window).on('resize', function(){
 $(document).on('click', function(e){
 	e.preventDefault();
 	return false;
+});
+
+
+$(document).on('keydown', function(e){
+	var code = (e.keyCode ? e.keyCode : e.which);
+	if(code == KEY.UP) keyIsUp = true;
+	if(code == KEY.DOWN) keyIsDown = true;
+	if(code == KEY.LEFT) keyIsLeft = true;
+	if(code == KEY.RIGHT) keyIsRight = true;
+});
+$(document).on('keyup', function(e){
+	var code = (e.keyCode ? e.keyCode : e.which);
+	if(code == KEY.UP) keyIsUp = false;
+	if(code == KEY.DOWN) keyIsDown = false;
+	if(code == KEY.LEFT) keyIsLeft = false;
+	if(code == KEY.RIGHT) keyIsRight = false;
 });
