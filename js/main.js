@@ -103,6 +103,7 @@ $(document).on('keydown', function(e){
 	if(code == KEY.DOWN) keyIsDown = true;
 	if(code == KEY.LEFT) keyIsLeft = true;
 	if(code == KEY.RIGHT) keyIsRight = true;
+	if(code == KEY.ENTER) keyIsEnter = true;
 });
 $(document).on('keyup', function(e){
 	var code = (e.keyCode ? e.keyCode : e.which);
@@ -110,4 +111,5 @@ $(document).on('keyup', function(e){
 	if(code == KEY.DOWN) keyIsDown = false;
 	if(code == KEY.LEFT) keyIsLeft = false;
 	if(code == KEY.RIGHT) keyIsRight = false;
+	if(code == KEY.ENTER) keyIsEnter = false;
 });

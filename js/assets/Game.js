@@ -17,9 +17,7 @@
 	this.Container_initialize = this.initialize;	//unique to avoid overiding base class
 
 	g.initialize = function (startLevel) {
-		resize();
 		this.setLevel(startLevel); 
-    	g._player = new Player();
     	this.launchTicker(); 
     	//Game events
 		$(document).on('click', function(e){
@@ -34,24 +32,39 @@
 	}
 
 	g.loadLevelData = function (level) {
-		var levelData = "      ######                                          \n                                                                        \n                 ########################### \n"; 
-		
-		for (var jY = 0 ; jY < this._levelData.sizeY ; jY++) {
-			for (var jX = 0 ; jX < this._levelData.sizeX ; jX++) {
-				if (levelData[jX] == "#") {
-					if (!this._levelTiles[jX])
-						this._levelTiles[jX] = new Array() ; 
 
-					this._levelTiles[jX][jY] = new Tile("wall", 2, jX, jY); 
+		var txtFile = new XMLHttpRequest();
+		txtFile.open("GET", "levels/level1.txt", true);
+		var that = this ; 
+		txtFile.onreadystatechange = function() {
+		  if (txtFile.readyState === 4) {  // Makes sure the document is ready to parse.
+		    if (txtFile.status === 200) {  // Makes sure it's found the file.
+				var levelData = "                                                                                    ##########                                       ######                                          \n                                                                        \n                 ########################### \n"; 
+				levelData = txtFile.responseText; 
+				
+				for (var jY = 0 ; jY < that._levelData.sizeY ; jY++) {
+					for (var jX = 0 ; jX < that._levelData.sizeX ; jX++) {
+						var currentTile = jY * that._levelData.sizeX + jX ; 
+						if (levelData[currentTile] == "#") {
+							if (!that._levelTiles[jX])
+								that._levelTiles[jX] = new Array() ; 
+
+							that._levelTiles[jX][jY] = new Tile("wall", 2, jX, jY); 
+						}
+						else {
+							if (!that._levelTiles[jX])
+								that._levelTiles[jX] = new Array() ; 
+							that._levelTiles[jX][jY] = new Tile(null, 0, jX, jY); 
+						}
+					}
 				}
-				else {
-					if (!this._levelTiles[jX])
-						this._levelTiles[jX] = new Array() ; 
-					this._levelTiles[jX][jY] = new Tile(null, 0, jX, jY); 
-				}
-			}
+    			g._player = new Player();
+				console.log(this._levelTiles); 
+		    }
+		  }
 		}
-		console.log(this._levelTiles); 
+		txtFile.send(null);
+		
 
 	}
 

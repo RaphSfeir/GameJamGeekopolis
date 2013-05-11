@@ -36,7 +36,7 @@ var mouse = {
 	up: true,
 	down: false
 };
-INTERVAL_COLLISION = 10 ; 
+INTERVAL_COLLISION = 20 ; 
 TILE_HEIGHT = 32 ; 
 TILE_WIDTH = 32 ; 
 var keyIsUp = false ; 

@@ -17,7 +17,7 @@
 	p.jumpSpeed = 20 ; 
 	p.speedX = 1 ; 
 	p.limitSpeedX = 3 ; 
-	p.limitSpeedY = 11 ; 
+	p.limitSpeedY = 13 ; 
 	p.vX = 0 ; 
 	p.vY = 0 ; 
 	p.MoveAcceleration = 1 ; 
@@ -125,7 +125,6 @@
         // Reset flag to search for ground collision.
         this.isOnGround = false;
         var groundCollision = game.getLevelCollision(centerTile, bottomTile);
-        console.log(groundCollision); 
         if (groundCollision == 1) {
         	this.isOnGround = true ; 
         	this.vY = 0 ; 
@@ -134,20 +133,17 @@
         	if ((this.y + TILE_WIDTH)  <= (bottomTile * StaticTile.Height) + INTERVAL_COLLISION && (this.y + TILE_WIDTH) >= (bottomTile * StaticTile.Height) - INTERVAL_COLLISION)
         	{
         		if (bounds.bottom + this.vY * this.direction >= bottomTile * StaticTile.Height) {
-        			console.log(this.previousTileY) ; 
         			this.y = bottomTile * StaticTile.Height - 32 ; 
 		        	this.isOnGround = true ; 
 		        	this.vY = 0 ; 
 	        	}
         	}
         	else {
-        		this.previousTileY = null ; 
         		this.isOnGround = false ; 
         		this.vY += GravityAcceleration ; 
         	}
         }
         else {
-        	this.previousTileY = null ; 
         	this.isOnGround = false ; 
         	this.vY += GravityAcceleration ; 
         }

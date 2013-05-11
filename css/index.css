@@ -3,6 +3,7 @@
 canvas {
   position: absolute;
   top: 0;
+  border: 1px solid black ; 
   left: 0; }
 
 /* line 44, index.scss */
