@@ -13,6 +13,10 @@
 	g._levelData = {};
 	gameCamera = null ; 
 	levelTiles = new Array(); 
+	objectsList1 = new Array() ; 
+	objectsList2 = new Array() ; 
+	var objectsI1 = 0 ; 
+	var objectsI2 = 0 ; 
 	otherLevelTiles = new Array(); 
 	g._lastUniverseSwitch = new Date() ; 
 	g._universeSwitchCooldown = 100 ; 
@@ -66,6 +70,13 @@
 
 							otherLevelTiles[jX][jY] = new Tile("wall", 2, jX, jY, false, 1); 
 						}
+						else if (levelData[currentTile] == "O") {
+							if (!levelTiles[jX])
+								levelTiles[jX] = new Array() ; 
+
+							objectsList2[objectsI2] = new ObjectInter("bonus", jX, jY); 
+							objectsI2++ ; 
+						}
 						else {
 							if (!otherLevelTiles[jX])
 								otherLevelTiles[jX] = new Array() ; 
@@ -105,6 +116,13 @@
 
 							levelTiles[jX][jY] = new Tile("wall", 2, jX, jY, false, 0); 
 						}
+						else if (levelData[currentTile] == "O") {
+							if (!levelTiles[jX])
+								levelTiles[jX] = new Array() ; 
+
+							objectsList1[objectsI1] = new ObjectInter("bonus", jX, jY); 
+							objectsI1++ ; 
+						}
 						else {
 							if (!levelTiles[jX])
 								levelTiles[jX] = new Array() ; 
@@ -132,8 +150,6 @@
 		console.log(otherLevelTiles);  
 		levelTiles = otherLevelTiles ; 
 		otherLevelTiles = temp ; 
-		console.log("switched") ;
-			console.log("SWITCH") ; 
             this.makeUniverseVisible(g._currentUniverse, false); 
             this.makeUniverseVisible(g._otherUniverse, true); 
             var temp = g._otherUniverse ; 
@@ -167,6 +183,13 @@
 	g.tick = function (event) {
 		if (keyIsEnter) g.switchUniverse() ; 
 		g._player.tick();
+		for (var k = 0 ; k < objectsList1.length ; k++) {
+			objectsList1[k].tick() ; 
+		}
+		for (var u = 0 ; u < objectsList2.length ; u++) {
+			objectsList2[k].tick() ; 
+			
+		}
 		universeContainer[0].setTransform(-gameCamera.x, -gameCamera.y) ; 	
 		universeContainer[1].setTransform(-gameCamera.x, -gameCamera.y) ;  
 		gameCamera.tick() ; 

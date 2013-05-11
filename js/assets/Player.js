@@ -18,6 +18,7 @@
 	p.speedX = 1 ; 
 	p.limitSpeedX = 3 ; 
 	p.limitSpeedY = 13 ; 
+	p.currentBonus = 0 ; 
 	p.vX = 0 ; 
 	p.vY = 0 ; 
 	p.MoveAcceleration = 1 ; 
@@ -41,8 +42,35 @@
 		this.controlsBehavior(); 
 		this.applyPhysics();
 		this.limitVelocity();  
+		this.collideObjects() ; 
 		this.drawRender() ; 
 		if (!keyIsUp) this.canJump = true ; 
+	}
+
+	p.pickupBonus = function () {
+		this.currentBonus++ ; 
+	}
+
+	p.collideObjects = function() {
+		var objectsToSee ;
+        var bounds = this.boundingRectangle();
+        var centerTile = Math.floor(bounds.center / StaticTile.Width);
+        var centerYTile = Math.floor(bounds.centerY / StaticTile.Height);
+		if (game._currentUniverse == 0) {
+			objectsToSee = objectsList1 ;
+		}
+		else objectsToSee = objectsList2 ;
+		for (var k = 0 ; k < objectsToSee.length ; k++) {
+			if (objectsToSee[k].active) {
+				if (parseInt(objectsToSee[k]._mapX) == parseInt(centerTile) && parseInt(objectsToSee[k]._mapY) == parseInt(centerYTile)) {
+					 if (objectsToSee[k].type == "bonus") {
+					 	this.pickupBonus() ; 
+					 	objectsToSee[k].hide() ; 
+					 	objectsToSee[k].active = false; 
+					 }
+				}
+			}
+		}
 	}
 
 	p.controlsBehavior = function() {
@@ -79,11 +107,12 @@
     p.boundingRectangle = function () {
         var left = parseInt(Math.round(this.x - 32));
         var center = parseInt(Math.round(this.x)); 
+        var centerY = parseInt(Math.round(this.y)); 
         var top = parseInt(Math.round(this.y - 64));
         var right = parseInt(Math.round(this.x + 32));
         var bottom = parseInt(Math.round(this.y + 64));
 
-        return {left: left, top: top, right: right, bottom: bottom, center:center}; 
+        return {left: left, top: top, right: right, bottom: bottom, center:center, centerY: centerY}; 
     };
 
 	p.loadSprites = function () {
