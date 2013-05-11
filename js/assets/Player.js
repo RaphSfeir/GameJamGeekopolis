@@ -71,8 +71,14 @@
 				this.currentBonus = 0 ; 
 				bonusToPick = 1 ; 
 				game.setLevel(game._currentLevel + 1);
+				this.setPosition(initPosition); 
 			}
 		}
+	}
+
+	p.setPosition = function(params) {
+		this.x = params.x ;
+		this.y = params.y ;
 	}
 
 	p.erraseDialogs = function () {

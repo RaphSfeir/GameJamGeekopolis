@@ -39,13 +39,22 @@
 		});
 	}
 
+	g.loadMessage = function(level) {
+		console.log("load message"); 
+		var msg = new UIElement(level, "msg1-1");
+	}
+
 // public methods:
 	g.setLevel = function (level) {
+		gameActive = false ; 
+		messagesActive = true ; 
+		g.loadMessage(level); 
 		if (this._currentUniverse == 1) game.switchUniverse(); 
 		this.clearLevelData(); 
 		this._currentLevel = level ; 
 		this._levelData = {sizeX: 54, sizeY: 54};
 		this.loadLevelData(level); 
+		
 	}
 
 	g.clearLevelData = function () {
@@ -100,6 +109,7 @@
             	cPlayground.addChild(universeContainer[0]); 
             	cPlayground.addChild(universeContainer[1]); 
             	cPlayground.addChild(dialogContainer); 
+            	cPlayground.addChild(UIContainer); 
             	that.makeUniverseVisible(1, false); 
 				}
 			}
@@ -224,6 +234,10 @@
 			dialogContainer.setTransform(-gameCamera.x, -gameCamera.y) ;  
 			gameCamera.tick() ; 
 			renderCanvas();
+		}
+		else if (messagesActive) {
+			renderCanvas();
+
 		}
 	}
 	window.Game = Game;

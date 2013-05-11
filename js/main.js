@@ -105,8 +105,9 @@ $(document).on('keydown', function(e){
 	if(code == KEY.RIGHT) keyIsRight = true;
 	if(code == KEY.ENTER) {
 		keyIsEnter = true;
-
-		gameActive = !gameActive ; 
+	}
+	if(code == KEY.ESC) {
+		gameActive = !gameActive; 
 	}
 });
 $(document).on('keyup', function(e){
