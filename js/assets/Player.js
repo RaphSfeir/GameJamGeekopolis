@@ -44,7 +44,16 @@
 		this.limitVelocity();  
 		this.collideObjects() ; 
 		this.drawRender() ; 
+		this.testDie() ; 
 		if (!keyIsUp) this.canJump = true ; 
+	}
+	p.testDie = function() {
+		if (this.y >= LIMIT_DEATH_Y) {
+			console.log("Die !") ;
+			this.x = initPosition.x ; 
+			this.y = initPosition.y ; 
+			if (game._currentUniverse == 1) game.switchUniverse(); 
+		}
 	}
 
 	p.pickupBonus = function () {
@@ -62,6 +71,7 @@
 		else objectsToSee = objectsList2 ;
 		for (var k = 0 ; k < objectsToSee.length ; k++) {
 			if (objectsToSee[k].active) {
+				console.log(objectsToSee[k]._mapX + " ; " + centerTile)
 				if (parseInt(objectsToSee[k]._mapX) == parseInt(centerTile) && parseInt(objectsToSee[k]._mapY) == parseInt(centerYTile)) {
 					 if (objectsToSee[k].type == "bonus") {
 					 	this.pickupBonus() ; 
@@ -197,8 +207,8 @@
 		bmpAnimation.name = "monster1";
 		bmpAnimation.direction = 90;
 		bmpAnimation.vX = 1;
-		bmpAnimation.x = this.x = 320;
-		bmpAnimation.y = this.y =  32;
+		bmpAnimation.x = this.x = params.x;
+		bmpAnimation.y = this.y =  params.y;
 		        
 		// have each monster start at a specific frame
 		bmpAnimation.currentFrame = 0;

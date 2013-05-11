@@ -1,7 +1,7 @@
 (function (window) {
 
-	ObjectInter = function(src, x, y){
-		this.initialize(src, x, y);
+	ObjectInter = function(src, x, y, universe){
+		this.initialize(src, x, y, universe);
 	}
 
 	var o = ObjectInter.prototype = new _.Bitmap();
@@ -18,34 +18,34 @@
 	o.type ;
 	o.active = true ;  
 // constructor:
-	o.initialize = function (src, x, y) {
-		o._mapX = x ; 
-		o._mapY = y ; 
-		o.type = src ; 
-		this.x = o._mapX * TILE_WIDTH ; 
-		this.y = o._mapY * TILE_HEIGHT ; 
-		this.load(src, x, y );
+	o.initialize = function (src, x, y, universe) {
+		this._mapX = x ; 
+		this._mapY = y ; 
+		this.type = src ; 
+		this.x = this._mapX * TILE_WIDTH ; 
+		this.y = this._mapY * TILE_HEIGHT ; 
+		this.load(src, x, y, universe);
 	}
 
 	o.tick = function () {
 		if (!isNaN(gameCamera.x)) {
-			this.x = o._mapX * TILE_WIDTH - gameCamera.x ; 
-			this.y = o._mapY * TILE_HEIGHT - gameCamera.y ; 
+			//this.x = o._mapX * TILE_WIDTH - gameCamera.x ; 
+			//this.y = o._mapY * TILE_HEIGHT - gameCamera.y ; 
 		}
 
 	}
 
 	o.hide = function() {
-		o.active = false ; 
+		this.active = false ; 
 		this.visible = false ; 
 	}
 
-	o.load = function(src){
+	o.load = function(src,x,y, universe){
 		this.image = new Image();
 		this.image.src = ObjectInter.path+src+".png"; 
 		var that = this;
 		this.image.onload = function() {
-			cPlayground.addChild(that);
+            universeContainer[universe].addChild(that);
 		}
 	}
 // public methods:

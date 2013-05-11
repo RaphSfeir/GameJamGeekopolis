@@ -39,6 +39,7 @@ var mouse = {
 INTERVAL_COLLISION = 20 ; 
 TILE_HEIGHT = 32 ; 
 TILE_WIDTH = 32 ; 
+LIMIT_DEATH_Y = 1200 ; 
 var keyIsUp = false ; 
 var keyIsDown = false ; 
 var keyIsLeft = false ; 

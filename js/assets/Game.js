@@ -15,8 +15,10 @@
 	levelTiles = new Array(); 
 	objectsList1 = new Array() ; 
 	objectsList2 = new Array() ; 
+	initPosition = {x: 350, y:50}
 	var objectsI1 = 0 ; 
 	var objectsI2 = 0 ; 
+	bonusToPick = 2 ; 
 	otherLevelTiles = new Array(); 
 	g._lastUniverseSwitch = new Date() ; 
 	g._universeSwitchCooldown = 100 ; 
@@ -42,7 +44,7 @@
 
 		console.log(levelTiles); 
 		console.log(otherLevelTiles); 
-    	g._player = new Player();
+    	g._player = new Player(initPosition);
     	gameCamera = new Camera() ;
 	}
 
@@ -74,7 +76,7 @@
 							if (!levelTiles[jX])
 								levelTiles[jX] = new Array() ; 
 
-							objectsList2[objectsI2] = new ObjectInter("bonus", jX, jY); 
+							objectsList2[objectsI2] = new ObjectInter("bonus", jX, jY, 1); 
 							objectsI2++ ; 
 						}
 						else {
@@ -120,7 +122,7 @@
 							if (!levelTiles[jX])
 								levelTiles[jX] = new Array() ; 
 
-							objectsList1[objectsI1] = new ObjectInter("bonus", jX, jY); 
+							objectsList1[objectsI1] = new ObjectInter("bonus", jX, jY, 0); 
 							objectsI1++ ; 
 						}
 						else {
@@ -187,7 +189,7 @@
 			objectsList1[k].tick() ; 
 		}
 		for (var u = 0 ; u < objectsList2.length ; u++) {
-			objectsList2[k].tick() ; 
+			objectsList2[u].tick() ; 
 			
 		}
 		universeContainer[0].setTransform(-gameCamera.x, -gameCamera.y) ; 	
