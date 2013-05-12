@@ -132,12 +132,32 @@
 
 	p.controlsBehavior = function() {
 		if (keyIsLeft) {
+			if (bmpAnimation.currentAnimation != "walk") {
+					if (bmpAnimation.spriteSheet != "run") 
+						bmpAnimation.spriteSheet = this.spritesSheets["run"]
+				bmpAnimation.gotoAndPlay("walk");
+			}
 			this.vX -= this.speedX ; 
 		}
 		else if (keyIsRight) {
+			if (bmpAnimation.currentAnimation != "walk_h") {
+					if (bmpAnimation.spriteSheet != "run") 
+						bmpAnimation.spriteSheet = this.spritesSheets["run"]
+				bmpAnimation.gotoAndPlay("walk_h");
+
+			}
 			this.vX += this.speedX ; 
 		}
-		else this.vX = 0 ; 
+		else {
+			if (bmpAnimation.currentAnimation != "idle") {
+				console.log(bmpAnimation.currentAnimation);
+				bmpAnimation.spriteSheet = this.spritesSheets["idle"]
+				bmpAnimation.gotoAndPlay("idle");
+				console.log("idle"); 
+			}
+			this.vX = 0 ; 
+		}
+		console.log(bmpAnimation); 
 		if (keyIsUp) {
 			this.doJump() ; 
 		}
@@ -193,11 +213,12 @@
 			walk: [0, 9, "walk", 4]
 			}
 		});
+		_.SpriteSheetUtils.addFlippedFrames(this.spritesSheets["run"], true, false, false);
 		this.spritesSheets["idle"] = new _.SpriteSheet({
 		    images: [imgMonsterAIdle],
 		    frames: { width: 64, height: 64, regX: 32, regY: 32 }, 
 		    animations: {
-		        idle: [0, 10, "idle", 4]
+		        idle: [0, 9, "idle", 4]
 		    }
 		});
 	}
@@ -260,10 +281,9 @@
 		bmpAnimation = new _.BitmapAnimation(this.spritesSheets["run"]);
 
 		bmpAnimation.gotoAndPlay("walk"); 
-		bmpAnimation.shadow = new _.Shadow("#454", 0, 5, 4);
 
 		bmpAnimation.name = "monster1";
-		bmpAnimation.direction = 90;
+		bmpAnimation.direction = -90;
 		bmpAnimation.vX = 1;
 		bmpAnimation.x = this.x = params.x;
 		bmpAnimation.y = this.y =  params.y;

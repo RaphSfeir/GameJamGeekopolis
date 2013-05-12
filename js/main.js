@@ -15,7 +15,7 @@ function loadAssets() {
 
     imgMonsterAIdle.onload = handleImageLoad;
     imgMonsterAIdle.onerror = handleImageError;
-    imgMonsterAIdle.src = "img/sprites/MonsterAIdle.png";
+    imgMonsterAIdle.src = "img/sprites/MonsterAIdle2.png";
 
     tileWall.onload = handleImageLoad;
     tileWall.onerror = handleImageError;
@@ -60,6 +60,7 @@ function handleTick() {
 
 function renderCanvas() {
 	cPlayground.update();
+	cBackground.update();
 }
 
 $(document).on('mousemove', function(e){
@@ -116,5 +117,8 @@ $(document).on('keyup', function(e){
 	if(code == KEY.DOWN) keyIsDown = false;
 	if(code == KEY.LEFT) keyIsLeft = false;
 	if(code == KEY.RIGHT) keyIsRight = false;
-	if(code == KEY.ENTER) keyIsEnter = false;
+	if(code == KEY.ENTER) {
+		keyIsEnter = false;
+		canSwitchUniverse = true ; 
+	}
 });

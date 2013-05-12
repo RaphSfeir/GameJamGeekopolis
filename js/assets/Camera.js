@@ -30,7 +30,7 @@
 	};
 	Camera.prototype.tick = function (event) {
 		this.x = game._player.x - frameWidth / 2; 
-		this.y = game._player.y - frameHeight / 3; 
+		this.y = game._player.y - frameHeight / 1.7; 
 	};
 
 	window.Camera = Camera;

@@ -1,10 +1,13 @@
 /*rgb(249, 48, 42);*/
 /* line 39, index.scss */
+body {
+  background:black;
+}
 canvas {
   position: absolute;
-  top: 0;
-  border: 1px solid black ; 
-  left: 0; }
+  top: 10%;
+  border: 1px solid white ; 
+  left: 25%; }
 
 /* line 44, index.scss */
 #hud {

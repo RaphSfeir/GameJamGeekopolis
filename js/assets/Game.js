@@ -13,6 +13,7 @@
 	g._levelData = {};
 	finalLevel = 3 ; 
 	gameCamera = null ; 
+	gameBackground = null ; 
 	levelTiles = new Array(); 
 	objectsList1 = new Array() ; 
 	objectsList2 = new Array() ; 
@@ -31,9 +32,10 @@
 
 	g.initialize = function (startLevel) {
 		this.setLevel(startLevel);
-    	g._player = new Player(initPosition);
+    	gameBackground = new Background("city3");
     	gameCamera = new Camera() ; 
     	this.launchTicker(); 
+    	g._player = new Player(initPosition);
     	//Game events
 		$(document).on('click', function(e){
 		});
@@ -54,7 +56,7 @@
 		this._currentLevel = level ; 
 		this._levelData = {sizeX: 54, sizeY: 54};
 		this.loadLevelData(level); 
-		
+
 	}
 
 	g.clearLevelData = function () {
@@ -178,14 +180,17 @@
 		interval.setTime(current.getTime() - g._lastUniverseSwitch.getTime()); 
 		if (interval.getMilliseconds() > g._universeSwitchCooldown) {
 			g._lastUniverseSwitch = new Date() ; 
-		var temp = levelTiles ;
-		levelTiles = otherLevelTiles ;
-		tempGravity = GravityAcceleration ;  
-		if (switchUniverseGravity) {
-			GravityAcceleration = GravityAcceleration2 ; 
-			GravityAcceleration2 = tempGravity ; 
-		}
-		otherLevelTiles = temp ; 
+			var temp = levelTiles ;
+			levelTiles = otherLevelTiles ;
+			tempGravity = GravityAcceleration ;  
+			if (switchUniverseGravity) {
+				GravityAcceleration = GravityAcceleration2 ; 
+				GravityAcceleration2 = tempGravity ; 
+			}
+			if (g._currentUniverse == 0) 
+    			gameBackground.setBackgroundSrc("city4");
+    		else gameBackground.setBackgroundSrc("city3");
+			otherLevelTiles = temp ; 
             this.makeUniverseVisible(g._currentUniverse, false); 
             this.makeUniverseVisible(g._otherUniverse, true); 
             var temp = g._otherUniverse ; 
@@ -218,7 +223,10 @@
 
 	g.tick = function (event) {
 		if (gameActive) {
-			if (keyIsEnter) g.switchUniverse() ; 
+			if (keyIsEnter && canSwitchUniverse) {
+				canSwitchUniverse = false ;
+				g.switchUniverse() ; 
+			}
 			g._player.tick();
 			for (var k = 0 ; k < objectsList1.length ; k++) {
 				if (objectsList1[k])
@@ -233,6 +241,7 @@
 			universeContainer[1].setTransform(-gameCamera.x, -gameCamera.y) ;  
 			dialogContainer.setTransform(-gameCamera.x, -gameCamera.y) ;  
 			gameCamera.tick() ; 
+			gameBackground.tick();
 			renderCanvas();
 		}
 		else if (messagesActive) {
