@@ -90,9 +90,22 @@
 	}
 
 	p.loadDialog = function(dialog, pnj) {
+		var dialogPath ;
+		if (pnj.dialogNumber == "1") {
+			dialogPath = "img/dialogs/mygod.png";
+		}
+		else if (pnj.dialogNumber == "2") 
+			dialogPath = "img/dialogs/pressenter.png";
+		else if (pnj.dialogNumber == "3") 
+			dialogPath = "img/dialogs/feelasleep.png";
+		else if (pnj.dialogNumber == "4") 
+			dialogPath = "img/dialogs/weird.png";
+		else if (pnj.dialogNumber == "5") 
+			dialogPath = "img/dialogs/dude.png";
+		else if (pnj.dialogNumber == "6") 
+			dialogPath = "img/dialogs/vgref.png";
 		console.log(dialog); 
-		console.log(pnj); 
-		drawnDialog = new _.Bitmap("img/dialogs/mygod.png");
+		drawnDialog = new _.Bitmap(dialogPath);
 		drawnDialog.x = pnj.x ; 
 		drawnDialog.y = pnj.y - 150; 
 		console.log(drawnDialog); 
