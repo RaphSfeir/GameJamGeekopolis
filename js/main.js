@@ -93,8 +93,6 @@ $(window).on('resize', function(){
 	//resize();
 });
 $(document).on('click', function(e){
-	e.preventDefault();
-	return false;
 });
 
 

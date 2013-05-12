@@ -2,6 +2,8 @@
 /* line 39, index.scss */
 body {
   background:black;
+  color:white;
+  font-family:Arial;
 }
 canvas {
   position: absolute;
@@ -38,6 +40,11 @@ canvas {
     .entity_info_container .actions_list .action:hover {
       cursor: pointer;
       color: whitesmoke; }
+#presentation {
+  position:absolute;
+  left:35%;
+  top:5%;
+}
 
 /* line 81, index.scss */
 #debug {
