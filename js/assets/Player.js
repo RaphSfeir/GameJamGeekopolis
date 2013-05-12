@@ -91,6 +91,7 @@
 
 	p.loadDialog = function(dialog, pnj) {
 		console.log(dialog); 
+		console.log(pnj); 
 		drawnDialog = new _.Bitmap("img/dialogs/mygod.png");
 		drawnDialog.x = pnj.x ; 
 		drawnDialog.y = pnj.y - 150; 

@@ -94,11 +94,11 @@
 							objectsList2[objectsI2] = new ObjectInter("bonus", jX, jY, 1); 
 							objectsI2++ ; 
 						}
-						else if (levelData[currentTile] == "1") {
+						else if (levelData[currentTile] == "1" || levelData[currentTile] == "2" || levelData[currentTile] == "3" || levelData[currentTile] == "4" || levelData[currentTile] == "5" || levelData[currentTile] == "6") {
 							if (!levelTiles[jX])
 								levelTiles[jX] = new Array() ; 
 
-							objectsList2[objectsI2] = new ObjectInter("PNJ", jX, jY, 1); 
+							objectsList2[objectsI2] = new ObjectInter("PNJ", jX, jY, 1, levelData[currentTile]); 
 							objectsI2++ ; 
 						}
 						else {
@@ -149,11 +149,11 @@
 							objectsList1[objectsI1] = new ObjectInter("bonus", jX, jY, 0); 
 							objectsI1++ ; 
 						}
-						else if (levelData[currentTile] == "1") {
+						else if (levelData[currentTile] == "1" || levelData[currentTile] == "2" || levelData[currentTile] == "3" || levelData[currentTile] == "4" || levelData[currentTile] == "5" || levelData[currentTile] == "6") {
 							if (!levelTiles[jX])
 								levelTiles[jX] = new Array() ; 
 
-							objectsList1[objectsI1] = new ObjectInter("PNJ", jX, jY, 0); 
+							objectsList1[objectsI1] = new ObjectInter("PNJ", jX, jY, 0, levelData[currentTile]); 
 							objectsI1++ ; 
 						}
 						else {
