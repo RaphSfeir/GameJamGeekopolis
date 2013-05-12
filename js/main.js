@@ -100,7 +100,7 @@ $(document).on('click', function(e){
 
 $(document).on('keydown', function(e){
 	var code = (e.keyCode ? e.keyCode : e.which);
-	if(code == KEY.UP) keyIsUp = true;
+	if(code == KEY.UP || code == KEY.SPACE) keyIsUp = true;
 	if(code == KEY.DOWN) keyIsDown = true;
 	if(code == KEY.LEFT) keyIsLeft = true;
 	if(code == KEY.RIGHT) keyIsRight = true;
@@ -113,7 +113,7 @@ $(document).on('keydown', function(e){
 });
 $(document).on('keyup', function(e){
 	var code = (e.keyCode ? e.keyCode : e.which);
-	if(code == KEY.UP) keyIsUp = false;
+	if(code == KEY.UP || code == KEY.SPACE) keyIsUp = false;
 	if(code == KEY.DOWN) keyIsDown = false;
 	if(code == KEY.LEFT) keyIsLeft = false;
 	if(code == KEY.RIGHT) keyIsRight = false;
@@ -122,3 +122,14 @@ $(document).on('keyup', function(e){
 		keyIsEnter = false;
 	}
 });
+ _.Sound.addEventListener("loadComplete", createjs.proxy(this.loadHandler, this));
+ _.Sound.registerSound("sounds/jump.wav", "sound");
+ _.Sound.registerSound("sounds/powerup.wav", "powerup");
+ _.Sound.registerSound("sounds/fall.wav", "fall");
+ _.Sound.registerSound("sounds/changedim.wav", "changedim");
+ function loadHandler(event) {
+ 	console.log("load sound");
+     // This is fired for each sound that is registered.
+     instance.addEventListener("complete", createjs.proxy(this.handleComplete, this));
+     instance.setVolume(0.5);
+ }

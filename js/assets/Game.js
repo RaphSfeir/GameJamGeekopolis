@@ -190,6 +190,7 @@
 			if (g._currentUniverse == 0) 
     			gameBackground.setBackgroundSrc("city6");
     		else gameBackground.setBackgroundSrc("city5");
+    		_.Sound.play("changedim");
 			otherLevelTiles = temp ; 
             this.makeUniverseVisible(g._currentUniverse, false); 
             this.makeUniverseVisible(g._otherUniverse, true); 

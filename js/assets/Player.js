@@ -51,6 +51,7 @@
 	p.testDie = function() {
 		if (this.y >= LIMIT_DEATH_Y) {
 			console.log("Die !") ;
+			_.Sound.play("fall");
 			this.x = initPosition.x ; 
 			this.y = initPosition.y ; 
 			if (game._currentUniverse == 1) game.switchUniverse(); 
@@ -65,6 +66,7 @@
 
 	p.pickupBonus = function () {
 		this.currentBonus++ ; 
+        _.Sound.play("powerup"); 
 		if (this.currentBonus == bonusToPick) {
 			if (game._currentLevel == finalLevel) {
 				this.endGame() ; 
@@ -189,7 +191,8 @@
 	    	this.vY -= this.jumpSpeed ; 
 	    	this.isOnGround = false ;
         	this.previousTileY = null ; 
-        	this.canJump = false ; 
+        	this.canJump = false ;
+        	 _.Sound.play("sound"); 
     	}
     };
 
