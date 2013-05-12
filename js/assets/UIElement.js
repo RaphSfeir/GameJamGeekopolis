@@ -22,9 +22,9 @@
 		this.y = MSG_Y ; 
 		this._currentMsg = 1 ; 
 		if (level == 1) {
-			this._msgCount = 3 ; 
+			this._msgCount = 6 ; 
 		}
-		else this._msgCount = 2 ; 
+		else this._msgCount = 0 ; 
 		this.load(level, src);
 	}
 
@@ -51,16 +51,15 @@
 		}
 	}
 	ui.manageClick = function(){
-		if (this._currentMsg < this._msgCount)
+		if (this._currentMsg <= this._msgCount)
 		{
 			this._currentMsg++ ; 
 			this.image.src = UIElement.path + "msg" + this._level + "-" + this._currentMsg + ".png";
 		}
 		else {
 		//afficher dans le hud en tant que cible potentielle
-		console.log("Click !") ; 
-		this.hide() ; 
-		gameActive = true ; 
+			this.hide() ; 
+			gameActive = true ; 
 		}
 	}
 // public methods:

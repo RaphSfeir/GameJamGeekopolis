@@ -118,7 +118,7 @@ $(document).on('keyup', function(e){
 	if(code == KEY.LEFT) keyIsLeft = false;
 	if(code == KEY.RIGHT) keyIsRight = false;
 	if(code == KEY.ENTER) {
+		if (gameActive) canSwitchUniverse = true ; 
 		keyIsEnter = false;
-		canSwitchUniverse = true ; 
 	}
 });

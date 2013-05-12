@@ -14,10 +14,10 @@
 	p.isAlive = true ; 
 	p.hasReachedExit = false ; 
 	p.direction = 1 ; 
-	p.jumpSpeed = 20 ; 
+	p.jumpSpeed = 24.4 ; 
 	p.speedX = 1 ; 
-	p.limitSpeedX = 3 ; 
-	p.limitSpeedY = 13 ; 
+	p.limitSpeedX = 3.58 ; 
+	p.limitSpeedY = 15.7 ; 
 	p.currentBonus = 0 ; 
 	p.vX = 0 ; 
 	p.vY = 0 ; 
@@ -157,7 +157,6 @@
 			}
 			this.vX = 0 ; 
 		}
-		console.log(bmpAnimation); 
 		if (keyIsUp) {
 			this.doJump() ; 
 		}

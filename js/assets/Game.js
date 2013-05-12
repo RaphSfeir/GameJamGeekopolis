@@ -11,13 +11,13 @@
 	g._tilesMap = []; 
 	g._currentLevel ; 
 	g._levelData = {};
-	finalLevel = 3 ; 
+	finalLevel = 9 ; 
 	gameCamera = null ; 
 	gameBackground = null ; 
 	levelTiles = new Array(); 
 	objectsList1 = new Array() ; 
 	objectsList2 = new Array() ; 
-	initPosition = {x: 350, y:955}
+	initPosition = {x: 330, y:955}
 	var objectsI1 = 0 ; 
 	var objectsI2 = 0 ; 
 	bonusToPick = 1; 
@@ -54,7 +54,7 @@
 		if (this._currentUniverse == 1) game.switchUniverse(); 
 		this.clearLevelData(); 
 		this._currentLevel = level ; 
-		this._levelData = {sizeX: 54, sizeY: 54};
+		this._levelData = {sizeX: 53, sizeY: 54};
 		this.loadLevelData(level); 
 
 	}
@@ -130,7 +130,7 @@
 		txtFile.onreadystatechange = function() {
 		  if (txtFile.readyState === 4) {  // Makes sure the document is ready to parse.
 		    if (txtFile.status === 200) {  // Makes sure it's found the file.
-				var levelData = "                                                                                    ##########                                       ######                                          \n                                                                        \n                 ########################### \n"; 
+				var levelData = ""
 				levelData = txtFile.responseText; 
 				
 				for (var jY = 0 ; jY < that._levelData.sizeY ; jY++) {
@@ -226,6 +226,8 @@
 			if (keyIsEnter && canSwitchUniverse) {
 				canSwitchUniverse = false ;
 				g.switchUniverse() ; 
+				console.log("switch"); 
+				console.log(gameActive); 
 			}
 			g._player.tick();
 			for (var k = 0 ; k < objectsList1.length ; k++) {
