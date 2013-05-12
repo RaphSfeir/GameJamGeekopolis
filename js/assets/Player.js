@@ -58,7 +58,9 @@
 	}
 
 	p.endGame = function() {
-		alert("end") ; 
+		var msg = new UIElement("end", "msg1-1");
+		gameActive = false ; 
+		messageActive = false ; 
 	}
 
 	p.pickupBonus = function () {

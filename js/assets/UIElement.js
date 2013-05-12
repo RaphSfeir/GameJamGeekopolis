@@ -39,9 +39,15 @@
 
 	ui.load = function(level, src){
 		this._level = level ; 
+		if (level == "end"){
+			this.image = new Image();
+			this.image.src = UIElement.path + "msgEnd.png";
+		}
+		else {
 
-		this.image = new Image();
-		this.image.src = UIElement.path + "msg" + this._level + "-" + this._currentMsg + ".png";
+			this.image = new Image();
+			this.image.src = UIElement.path + "msg" + this._level + "-" + this._currentMsg + ".png";
+		}
 		var that = this;
 		this.image.onload = function() {
             UIContainer.addChild(that);
@@ -58,8 +64,10 @@
 		}
 		else {
 		//afficher dans le hud en tant que cible potentielle
-			this.hide() ; 
-			gameActive = true ; 
+			if (this._level != "end") {
+				this.hide() ; 
+				gameActive = true ; 
+			}
 		}
 	}
 // public methods:
