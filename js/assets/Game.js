@@ -32,7 +32,7 @@
 
 	g.initialize = function (startLevel) {
 		this.setLevel(startLevel);
-    	gameBackground = new Background("city3");
+    	gameBackground = new Background("city5");
     	gameCamera = new Camera() ; 
     	this.launchTicker(); 
     	g._player = new Player(initPosition);
@@ -188,8 +188,8 @@
 				GravityAcceleration2 = tempGravity ; 
 			}
 			if (g._currentUniverse == 0) 
-    			gameBackground.setBackgroundSrc("city4");
-    		else gameBackground.setBackgroundSrc("city3");
+    			gameBackground.setBackgroundSrc("city6");
+    		else gameBackground.setBackgroundSrc("city5");
 			otherLevelTiles = temp ; 
             this.makeUniverseVisible(g._currentUniverse, false); 
             this.makeUniverseVisible(g._otherUniverse, true); 

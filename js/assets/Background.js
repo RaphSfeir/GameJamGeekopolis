@@ -25,7 +25,7 @@
 
 	bg.tick = function (event) {
 		bg.x = this.posXinit - gameCamera.x / this.scaleFactor  ;
-		bg.y = this.posYinit - gameCamera.y / this.scaleFactor - this.height / 2 - 250 ; ;
+		bg.y = this.posYinit - gameCamera.y / this.scaleFactor - this.height / 2 - 320 ; ;
 	}
 
 	bg.setBackgroundSrc = function(newSrc) {

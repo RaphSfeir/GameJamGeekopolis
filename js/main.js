@@ -11,7 +11,7 @@ function init() {
 function loadAssets() {
 	imgMonsterARun.onload = handleImageLoad;
     imgMonsterARun.onerror = handleImageError;
-    imgMonsterARun.src = "img/sprites/MonsterARun.png";
+    imgMonsterARun.src = "img/sprites/RoyRun.png";
 
     imgMonsterAIdle.onload = handleImageLoad;
     imgMonsterAIdle.onerror = handleImageError;
